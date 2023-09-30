@@ -22,11 +22,11 @@
   "license": "BSD-3-Clause",
   "scripts": {
     "clean": "rm -rf dist && rm -rf coverage",
-    "prettier": "prettier --check .",
+    "prettier": "prettier --check --ignore-unknown --no-error-on-unmatched-pattern .",
     "prettier:fix": "yarn prettier --write",
     "lint": "eslint --ext .ts,.tsx,.js,.json .",
     "lint:fix": "yarn lint --fix",
-    "lint:staged": "lint-staged",
+    "lint:staged": "lint-staged --concurrent 1",
     "format": "yarn prettier:fix && yarn lint:fix",
     "build": "yarn clean && tsc",
     "prepare": "yarn build",
@@ -75,6 +75,7 @@
     ]
   },
   "lint-staged": {
-    "*": "yarn format"
+    "*.{ts,tsx,js,json}": "yarn lint:fix",
+    "*": "yarn prettier:fix"
   }
 }
