@@ -26,6 +26,9 @@ jobs:
           cache: yarn
           cache-dependency-path: ./yarn.lock
 
+      - name: Ignore engine mismatch in dependencies so we can test multiple node versions
+        run: yarn config set ignore-engines true
+
       - name: Install dependencies
         run: yarn install
 
