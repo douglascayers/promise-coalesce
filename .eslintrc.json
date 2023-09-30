@@ -14,12 +14,7 @@
     "plugin:import/recommended",
     "plugin:import/typescript"
   ],
-  "plugins": [
-    "@typescript-eslint",
-    "prettier",
-    "import",
-    "unused-imports"
-  ],
+  "plugins": ["@typescript-eslint", "prettier", "import", "unused-imports"],
   "rules": {
     "no-else-return": "warn",
 
@@ -44,6 +39,8 @@
     "@typescript-eslint/explicit-module-boundary-types": "error",
 
     "@typescript-eslint/no-empty-interface": "off",
+
+    "@typescript-eslint/no-explicit-any": "off",
 
     "@typescript-eslint/no-namespace": "off",
 

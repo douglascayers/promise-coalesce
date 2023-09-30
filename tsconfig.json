@@ -15,6 +15,6 @@
     "forceConsistentCasingInFileNames": true,
     "useUnknownInCatchVariables": false
   },
-  "include": ["src/**/*.ts", "src/**/*.json"],
-  "exclude": [".git"]
+  "include": ["src/*.ts", "src/**/*.ts", "src/*.json", "src/**/*.json"],
+  "exclude": ["node_modules", ".git", "src/*.test.ts", "src/**/*.test.ts"]
 }
