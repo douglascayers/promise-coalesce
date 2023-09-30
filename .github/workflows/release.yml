@@ -9,6 +9,9 @@ on:
 permissions:
   contents: read # for checkout
 
+env:
+  HUSKY: 0 # don't run husky hooks like commit-lint
+
 jobs:
   release:
     name: Release
