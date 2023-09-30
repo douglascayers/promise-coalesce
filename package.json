@@ -1,6 +1,6 @@
 {
   "name": "promise-coalesce",
-  "version": "0.0.0-development",
+  "version": "1.0.0",
   "description": "",
   "keywords": [
     "promise",
@@ -12,8 +12,7 @@
     "url": "https://github.com/douglascayers"
   },
   "repository": {
-    "type": "git",
-    "url": "https://github.com/douglascayers/promise-coalesce.git"
+    "url": "git+https://github.com/douglascayers/promise-coalesce.git"
   },
   "bugs": {
     "url": "https://github.com/douglascayers/promise-coalesce/issues"
