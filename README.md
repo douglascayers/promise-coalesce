@@ -63,3 +63,12 @@ async function getValue(cacheKey: string): Promise<object> {
   return cachedValue;
 }
 ```
+
+## Credits
+
+This solution is inspired by [node-cache-manager](https://github.com/node-cache-manager/node-cache-manager)'s
+[CallbackFiller](https://github.com/node-cache-manager/node-cache-manager/blob/4.1.0/lib/callback_filler.js) from the `v4.x` line.
+
+It was [removed](https://github.com/node-cache-manager/node-cache-manager/issues/417)
+in the `v5.x` line, and `promise-coalesce` is an attempt to recover that feature
+while also being generic enough for other applications.
