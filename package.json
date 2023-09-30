@@ -21,7 +21,7 @@
   "homepage": "https://github.com/douglascayers/promise-coalesce#readme",
   "license": "BSD-3-Clause",
   "scripts": {
-    "clean": "rm -rf dist",
+    "clean": "rm -rf dist && rm -rf coverage",
     "prettier": "prettier --check .",
     "prettier:fix": "yarn prettier --write",
     "lint": "eslint --ext .ts,.tsx,.js,.json .",
@@ -63,6 +63,7 @@
     "jest": "^29.7.0",
     "prettier": "^3.0.3",
     "semantic-release": "^22.0.5",
+    "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   },
