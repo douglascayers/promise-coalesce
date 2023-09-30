@@ -18,24 +18,28 @@ jobs:
       pull-requests: write # to be able to comment on released pull requests
       id-token: write # to enable use of OIDC for npm provenance
     steps:
-      - name: Checkout
+      - name: Checkout source
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js
+      - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 'lts/*'
+          node-version: 18
+          cache: yarn
+          cache-dependency-path: ./yarn.lock
 
       - name: Install dependencies
-        run: npm clean-install
+        run: yarn install
 
       - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
-        run: npm audit signatures
+        run: |
+          yarn audit signatures
+          npm audit signatures
 
       - name: Release
         env:
           GITHUB_TOKEN: ${{ github.token }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npx semantic-release
+        run: yarn semantic-release
