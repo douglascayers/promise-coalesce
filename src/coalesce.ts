@@ -47,16 +47,25 @@ function removeKey(key: string): void {
   callbacks.delete(key);
 }
 
+function addCallbackToKey<T>(key: string, callback: PromiseCallback<T>): void {
+  const stash = getCallbacksByKey<T>(key);
+  stash.push(callback);
+  callbacks.set(key, stash);
+}
+
+function getCallbacksByKey<T>(key: string): Array<PromiseCallback<T>> {
+  return callbacks.get(key) ?? [];
+}
+
 function enqueue<T>(key: string): Promise<T> {
   return new Promise<T>((resolve, reject) => {
-    const stash = callbacks.get(key) ?? [];
-    stash.push({ resolve, reject });
-    callbacks.set(key, stash);
+    const callback: PromiseCallback<T> = { resolve, reject };
+    addCallbackToKey(key, callback);
   });
 }
 
-function dequeue(key: string): Array<PromiseCallback<unknown>> {
-  const stash = callbacks.get(key) ?? [];
+function dequeue<T>(key: string): Array<PromiseCallback<T>> {
+  const stash = getCallbacksByKey<T>(key);
   removeKey(key);
   return stash;
 }

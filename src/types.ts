@@ -1,8 +1,8 @@
-export interface PromiseCallback<T> {
+export interface PromiseCallback<T = any, E = Error> {
   resolve: ResolveFunction<T>;
-  reject: RejectFunction;
+  reject: RejectFunction<E>;
 }
 
-export type ResolveFunction<T> = (value?: T | PromiseLike<T>) => void;
+export type ResolveFunction<T = any> = (value: T | PromiseLike<T>) => void;
 
-export type RejectFunction = (reason?: Error) => void;
+export type RejectFunction<E = Error> = (reason: E) => void;
