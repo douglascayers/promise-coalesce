@@ -1,4 +1,4 @@
-import { coalesceAsync } from './coalesce';
+import { coalesceAsync } from '../coalesce';
 
 const coalescingFunc = (key: string, fn: () => PromiseLike<string>) => {
   return coalesceAsync(key, fn);
