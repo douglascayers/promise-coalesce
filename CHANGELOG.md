@@ -1,3 +1,11 @@
+# [1.1.0](https://github.com/douglascayers/promise-coalesce/compare/v1.0.0...v1.1.0) (2023-10-01)
+
+
+### Features
+
+* **config:** move husky install to prepare step ([#3](https://github.com/douglascayers/promise-coalesce/issues/3)) ([73941a4](https://github.com/douglascayers/promise-coalesce/commit/73941a47dab976f5703b197c7301408b1a4b25a0))
+* move husky install to prepare step ([2e33936](https://github.com/douglascayers/promise-coalesce/commit/2e33936e0d181c6a347dc532ff4290d48141dcbb))
+
 # 1.0.0 (2023-09-30)
 
 
