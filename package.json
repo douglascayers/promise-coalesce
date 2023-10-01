@@ -28,9 +28,8 @@
     "lint:staged": "lint-staged --concurrent 1",
     "format": "yarn prettier:fix && yarn lint:fix",
     "build": "yarn clean && tsc",
-    "prepare": "yarn build",
+    "prepare": "yarn build && npx husky install",
     "test": "jest",
-    "postinstall": "husky install",
     "semantic-release": "semantic-release"
   },
   "files": [
