@@ -1,7 +1,7 @@
 {
   "name": "promise-coalesce",
   "version": "1.1.0",
-  "description": "",
+  "description": "Coalesces multiple promises for the same identifier into a single request",
   "keywords": [
     "promise",
     "coalesce",
