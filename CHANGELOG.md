@@ -1,3 +1,11 @@
+## [1.1.1](https://github.com/douglascayers/promise-coalesce/compare/v1.1.0...v1.1.1) (2023-10-25)
+
+
+### Bug Fixes
+
+* **deps:** bump @babel/traverse from 7.23.0 to 7.23.2 ([a0ba990](https://github.com/douglascayers/promise-coalesce/commit/a0ba990cfbc080dce6b373d2e024a01a40d97739))
+* **deps:** bump @babel/traverse from 7.23.0 to 7.23.2 ([#9](https://github.com/douglascayers/promise-coalesce/issues/9)) ([2940b40](https://github.com/douglascayers/promise-coalesce/commit/2940b40f0b9029a748dec557e8b97f42702dfe03))
+
 # [1.1.0](https://github.com/douglascayers/promise-coalesce/compare/v1.0.0...v1.1.0) (2023-10-01)
 
 
