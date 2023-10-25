@@ -200,3 +200,80 @@ describe('coalescing function', () => {
     });
   });
 });
+
+describe('readme-example', () => {
+  const MemoryCache = () => {
+    const data: Record<string, any> = {};
+    return {
+      get: async (key: string): Promise<any> => {
+        return data[key];
+      },
+      set: async (key: string, value: any): Promise<void> => {
+        data[key] = value;
+      },
+    };
+  };
+
+  let cache: ReturnType<typeof MemoryCache>;
+
+  beforeEach(() => {
+    cache = MemoryCache();
+  });
+
+  test('when implement example from readme it works as expected', async () => {
+    const TestObject = {
+      // Example usage.
+      async getValue(cacheKey: string): Promise<object> {
+        let cachedValue = await cache.get(cacheKey);
+        if (!cachedValue) {
+          cachedValue = await coalesceAsync<object>(cacheKey, async () => {
+            const sourceValue = await TestObject.getSourceValue();
+            await cache.set(cacheKey, sourceValue);
+            return sourceValue;
+          });
+        }
+        return cachedValue;
+      },
+
+      // Simulate getting a value from a source system.
+      async getSourceValue(): Promise<object> {
+        return new Promise<object>((resolve) => {
+          setTimeout(() => {
+            resolve({ answer: 42 });
+          }, 250);
+        });
+      },
+    };
+
+    const getValueSpy = jest.spyOn(TestObject, 'getValue');
+    const getSourceValueSpy = jest.spyOn(TestObject, 'getSourceValue');
+
+    // Simulate several concurrent requests for the same value.
+    const results = await Promise.allSettled([
+      TestObject.getValue('test:key'), // 1
+      TestObject.getValue('test:key'), // 2
+      TestObject.getValue('test:key'), // 3
+      TestObject.getValue('test:key'), // 4
+      TestObject.getValue('test:key'), // 5
+      TestObject.getValue('test:key'), // 6
+      TestObject.getValue('test:key'), // 7
+      TestObject.getValue('test:key'), // 8
+      TestObject.getValue('test:key'), // 9
+      TestObject.getValue('test:key'), // 10
+    ]);
+
+    // Assert that the source function was called exactly once.
+    expect(getSourceValueSpy).toBeCalledTimes(1);
+
+    // Assert that all requests that were put in escrow
+    // resolved to the same value.
+    expect(getValueSpy).toBeCalledTimes(10);
+    expect(results.length).toBe(10);
+    results.forEach((result) => {
+      expect(result).toMatchObject({
+        status: 'fulfilled',
+        value: { answer: 42 },
+      });
+    });
+  });
+});

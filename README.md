@@ -36,29 +36,29 @@ await coalesceAsync('some-group-key', async () => {
 ```ts
 import { coalesceAsync } from 'promise-coalesce';
 
-// Assume you have a function to fetch a value from a cache.
-// When there's a cache miss then you fetch the value from the source system.
-// Querying the source system may be an expensive database call
-// or an API request to another system that enforces rate limiting.
-async function getValue(cacheKey: string): Promise<object> {
-  // If multiple requests occur at the same time to get
-  // the same cache value, because of the nature of async
-  // and the event loop then they each may all call `cache.get`
+// Imagine you want to retrieve a value, and you have a cache to speed things up.
+// If the value isn't in the cache, you'll need to get it from the source system,
+// which can be a time-consuming process like a database query or an API request.
+async function getValue(cacheKey: string): Promise<YourData> {
+  // When multiple requests try to fetch the same value from the cache at the same time,
+  // because of the way async operations work, yielding the event loop at each `await`,
+  // then they will all try to get it from the cache.
   let cachedValue = await cache.get(cacheKey);
-  // They would then take turns evaluating and entering the condition
-  // because they would each see that the value doesn't exist yet
+  // They will take turns checking the condition and all see that the value is missing.
   if (!cachedValue) {
-    // They each would then call `coalesceAsync`
-    // However, because we are coalescing the requests then
-    // the expensive call to fetch from the source system
-    // only occurs once and the other requests resolve with
-    // that same value at the end :)
-    cachedValue = await coalesceAsync(cacheKey, async () => {
-      /* fetch value from source system */
+    // Here's where `coalesceAsync` comes to the rescue!
+    // Instead of making multiple expensive calls to the source system,
+    // we use `coalesceAsync`` to ensure it's called only once, and other requests
+    // wanting the same cache key wait for the result.
+    cachedValue = await coalesceAsync<YourData>(cacheKey, async () => {
+      // Now, we fetch the value from the source system.
+      const sourceValue = await getSourceValue();
+      // We also cache it for future use.
+      await cache.set(cacheKey, sourceValue, ttl);
+      // Now, the value is in the cache, and future requests will avoid calling the source system
+      // until the cached data expires (based on TTL).
+      return sourceValue;
     });
-    // Now the value is cached and future requests will skip
-    // calling the source system entirely until the TTL expires
-    await cache.set(cacheKey, cachedValue, ttl);
   }
   return cachedValue;
 }
