@@ -13,6 +13,7 @@ jobs:
         node-version:
           - 20
           - 18
+          - 16
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
