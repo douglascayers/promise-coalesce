@@ -51,7 +51,7 @@
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "engines": {
-    "node": ">=18"
+    "node": ">=16"
   },
   "dependencies": {},
   "devDependencies": {
