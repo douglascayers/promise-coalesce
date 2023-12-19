@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/douglascayers/promise-coalesce/compare/v1.1.1...v1.1.2) (2023-12-19)
+
+
+### Bug Fixes
+
+* avoid warnings in projects using node 16 ([08f1a71](https://github.com/douglascayers/promise-coalesce/commit/08f1a71c6942552124d0569c2e26ecdb639cd7db))
+
 ## [1.1.1](https://github.com/douglascayers/promise-coalesce/compare/v1.1.0...v1.1.1) (2023-10-25)
 
 
