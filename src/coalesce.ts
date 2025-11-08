@@ -1,6 +1,4 @@
-import { PromiseCallback } from './types';
-
-const callbacks = new Map<string, Array<PromiseCallback<any>>>();
+const promises = new Map<string, Promise<any>>();
 
 /**
  * Enqueue a promise for the group identified by `key`.
@@ -21,66 +19,23 @@ export async function coalesceAsync<T>(
    */
   fn: () => T | PromiseLike<T>
 ): Promise<T> {
-  if (!hasKey(key)) {
-    addKey(key);
-    try {
-      const result = await Promise.resolve(fn());
-      coalesce({ key, result });
-      return result;
-    } catch (error) {
-      coalesce({ key, error });
-      throw error;
-    }
+  let promise = promises.get(key);
+
+  if (promise) {
+    return promise;
   }
-  return enqueue(key);
-}
 
-function hasKey(key: string): boolean {
-  return callbacks.has(key);
-}
-
-function addKey(key: string): void {
-  callbacks.set(key, []);
-}
-
-function removeKey(key: string): void {
-  callbacks.delete(key);
-}
-
-function addCallbackToKey<T>(key: string, callback: PromiseCallback<T>): void {
-  const stash = getCallbacksByKey<T>(key);
-  stash.push(callback);
-  callbacks.set(key, stash);
-}
-
-function getCallbacksByKey<T>(key: string): Array<PromiseCallback<T>> {
-  return callbacks.get(key) ?? [];
-}
-
-function enqueue<T>(key: string): Promise<T> {
-  return new Promise<T>((resolve, reject) => {
-    const callback: PromiseCallback<T> = { resolve, reject };
-    addCallbackToKey(key, callback);
-  });
-}
-
-function dequeue<T>(key: string): Array<PromiseCallback<T>> {
-  const stash = getCallbacksByKey<T>(key);
-  removeKey(key);
-  return stash;
-}
-
-function coalesce<T>(options: {
-  key: string;
-  error?: Error;
-  result?: T;
-}): void {
-  const { key, error, result } = options;
-  dequeue(key).forEach((callback) => {
-    if (error) {
-      callback.reject(error);
-    } else {
-      callback.resolve(result);
+  promise = new Promise<T>((resolve, reject) => {
+    try {
+      Promise.resolve(fn()).then(resolve).catch(reject);
+    } catch (error) {
+      reject(error);
     }
+  }).finally(() => {
+    promises.delete(key);
   });
+
+  promises.set(key, promise);
+
+  return promise;
 }
