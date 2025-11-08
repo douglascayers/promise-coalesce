@@ -1,3 +1,11 @@
+# [1.4.0](https://github.com/douglascayers/promise-coalesce/compare/v1.3.0...v1.4.0) (2025-11-08)
+
+
+### Features
+
+* simplify promise handling and remove unused types ([7480e12](https://github.com/douglascayers/promise-coalesce/commit/7480e127262449e6d651b4888548893f09f18919))
+* simplify promise handling and remove unused types ([#22](https://github.com/douglascayers/promise-coalesce/issues/22)) ([07f6903](https://github.com/douglascayers/promise-coalesce/commit/07f6903f95035b364b8081c6a95b107d62b1875a))
+
 # [1.3.0](https://github.com/douglascayers/promise-coalesce/compare/v1.2.0...v1.3.0) (2025-11-08)
 
 
